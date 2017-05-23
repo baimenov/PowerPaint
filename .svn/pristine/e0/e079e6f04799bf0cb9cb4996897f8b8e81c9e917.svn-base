@@ -1,0 +1,187 @@
+/**
+ * 
+ */
+package gui;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSlider;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
+import draw.DrawPanel;
+
+/**
+ * @author baimenov
+ * @version November 11 2016
+ */
+public class PowerPaintGUI extends JFrame {
+    
+    private static final long serialVersionUID = 5756891741199164658L;
+    
+    private static final Dimension FRAME_SIZE = new Dimension(400, 300);
+    
+    private static final String QUIT_STRING = "Quit";
+     
+    private Action myQuitAction;
+    
+    private Action myClear;
+    
+    private DrawPanel myPanel;
+    
+    public PowerPaintGUI() {
+        super("TCSS 305 - PowerPaint");
+        final JToolBar toolBar1 = createToolBar();
+        add(toolBar1, BorderLayout.SOUTH);
+        setJMenuBar(createMenuBar());
+        myPanel = new DrawPanel();
+        add(myPanel, BorderLayout.CENTER);
+    }
+    
+    public void start() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(FRAME_SIZE);
+        final ImageIcon img = new ImageIcon("images/jframe_icon.png");
+        setIconImage(img.getImage());
+        
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+    
+    private JToolBar createToolBar() {
+        final JToolBar bar = new JToolBar();
+        bar.addSeparator();
+        
+        final ButtonGroup btngrp = new ButtonGroup();
+        
+        final JToggleButton pencil = new JToggleButton("Pencil", new ImageIcon("images/pencil_bw.gif"));
+        final JToggleButton rectangle = new JToggleButton("Rectangle", new ImageIcon("images/rectangle_bw.gif"));
+        final JToggleButton ellipse = new JToggleButton("Ellipse", new ImageIcon("images/ellipse_bw.gif"));
+        final JToggleButton line = new JToggleButton("Line", new ImageIcon("images/line.gif"));
+        
+        
+        
+        pencil.setMnemonic(KeyEvent.VK_P);
+        rectangle.setMnemonic(KeyEvent.VK_R);
+        ellipse.setMnemonic(KeyEvent.VK_E);
+        line.setMnemonic(KeyEvent.VK_L);
+        
+        btngrp.add(pencil);
+        btngrp.add(rectangle);
+        btngrp.add(ellipse);
+        btngrp.add(line);
+        
+        bar.add(line);
+        bar.add(pencil);
+        bar.add(rectangle);
+        bar.add(ellipse);
+        
+        
+        
+        btngrp.clearSelection();
+        
+        return bar;
+    }
+    
+    private JMenuBar createMenuBar() {
+        final JMenuBar menuBar = new JMenuBar();
+        final JMenu fileMenu = new JMenu("File");
+        fileMenu.setMnemonic(KeyEvent.VK_F);
+        
+        final JMenu optionsMenu = new JMenu("Options");
+        optionsMenu.setMnemonic(KeyEvent.VK_O);
+        
+        final JMenu toolsMenu = new JMenu("Tools");
+        toolsMenu.setMnemonic(KeyEvent.VK_T);
+        
+        final JMenu helpMenu = new JMenu("Help");
+        helpMenu.setMnemonic(KeyEvent.VK_H);
+        
+        final JMenuItem quit = new JMenuItem("Quit");
+        final JMenuItem clear = new JMenuItem("Clear");
+        quit.setMnemonic(KeyEvent.VK_Q);
+        fileMenu.add(clear);
+        clear.setMnemonic(KeyEvent.VK_C);
+        clear.setEnabled(false);
+        fileMenu.addSeparator();
+        fileMenu.add(quit);
+        
+        menuBar.add(fileMenu);
+        
+        menuBar.add(optionsMenu);
+        menuBar.add(toolsMenu);
+        menuBar.add(helpMenu);
+        
+        final ButtonGroup btngrp = new ButtonGroup();
+        
+        final JRadioButtonMenuItem line =
+                        new JRadioButtonMenuItem("Line", new ImageIcon("images/line.gif"));
+        final JRadioButtonMenuItem pencil =
+                        new JRadioButtonMenuItem("Pencil",
+                                                 new ImageIcon("images/pencil_bw.gif"));
+        final JRadioButtonMenuItem rectangle =
+                        new JRadioButtonMenuItem("Rectangle",
+                                                 new ImageIcon("images/rectangle_bw.gif"));
+        final JRadioButtonMenuItem ellipse =
+                        new JRadioButtonMenuItem("Ellipse",
+                                                 new ImageIcon("images/ellipse_bw.gif"));
+        
+        pencil.setMnemonic(KeyEvent.VK_P);
+        rectangle.setMnemonic(KeyEvent.VK_R);
+        ellipse.setMnemonic(KeyEvent.VK_E);
+        line.setMnemonic(KeyEvent.VK_L);
+        
+        btngrp.add(line);
+        btngrp.add(pencil);
+        btngrp.add(rectangle);
+        btngrp.add(ellipse);
+        
+        final JMenu thickness = new JMenu("Thisckness");
+        thickness.setMnemonic(KeyEvent.VK_T);
+        final JSlider slider = new JSlider(0, 20, 1);
+        slider.setMajorTickSpacing(5);
+        slider.setMinorTickSpacing(1);
+        slider.setPaintLabels(true);
+        slider.setPaintTicks(true);
+        thickness.add(slider);
+        optionsMenu.add(thickness);
+        optionsMenu.addSeparator();
+        
+        final JMenuItem drawColor = new JMenuItem("Draw Color...");
+        final JMenuItem fillColor = new JMenuItem("Fill Color...");
+        drawColor.setMnemonic(KeyEvent.VK_D);
+        fillColor.setMnemonic(KeyEvent.VK_F);
+        optionsMenu.add(drawColor);
+        optionsMenu.addSeparator();
+        optionsMenu.add(fillColor);
+        optionsMenu.addSeparator();
+        final JCheckBoxMenuItem fill = new JCheckBoxMenuItem("Fill");
+        optionsMenu.add(fill);
+        
+        final JMenuItem about = new JMenuItem("About...");
+        helpMenu.add(about);
+        
+        toolsMenu.add(line);
+        toolsMenu.add(pencil);
+        toolsMenu.add(rectangle);
+        toolsMenu.add(ellipse);
+        
+        
+        
+        return menuBar;
+    }
+}
